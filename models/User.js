@@ -1,15 +1,19 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  // TODO: fill this out according to instructions
-  // TODO username unique, username trimmed
-  // TODO email unique, email valid
-  // TODO thoughts and friends references
-  // TODO virtual called friendCount
+  // TODO: username unique, username trimmed
+  // TODO: email unique, email valid
+
   username: { type: String, required: true },
   email: { type: String, required: true },
-  thoughts: [],
-  friends: [],
+  // TODO: TEST thoughts and friends references
+  // friends returns only IDs ??
+  thoughts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Thought" }],
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+});
+
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
 });
 
 const User = mongoose.model("User", userSchema);
