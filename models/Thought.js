@@ -11,14 +11,20 @@ const reactionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const thoughtSchema = new mongoose.Schema({
-  // TODO: thoughtText between 1-280 characters
+const thoughtSchema = new mongoose.Schema(
+  {
+    // TODO: thoughtText between 1-280 characters
 
-  thoughtText: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  username: { type: String, required: true },
-  reactions: [reactionSchema],
-});
+    thoughtText: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    username: { type: String, required: true },
+    reactions: [reactionSchema],
+  },
+  {
+    toJSON: { virtuals: true },
+    id: false,
+  }
+);
 
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.length;
